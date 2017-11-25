@@ -1,0 +1,12 @@
+{
+  "name": "cardgame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "node ./tests.js",
+    "start": "node ./server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
