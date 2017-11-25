@@ -1,6 +1,38 @@
-const stuff = 'stuff';
-console.log(`hello ${stuff}`);
+const express = require("express");
+const http = require("http");
+var path = require("path");
 
-const obj = {hey: 1};
-const obj2 = {...obj, blegh: 2};
-console.log(obj2);
+// Note that we can also use ES6 style import even though not natively supported by node
+// If you look in build folder you will see that Babel will transpile this to require version
+import {isDevelopment} from "./settings";
+
+// Setup
+// -------------------------------------------------------
+const app = express();
+const server = new http.Server(app);
+
+// Configuration
+// -------------------------------------------------------
+// Use pug as view engine
+app.set("view engine", "pug");
+
+// Set view folder
+app.set("views", "./views");
+
+// Tell express to serve files static files under public
+app.use(express.static("public"));
+// -------------------------------------------------------
+
+const useExternalStyles = !isDevelopment;
+const scriptRoot = isDevelopment ? "http://localhost:8080/build" : "/build";
+
+// If you request any path that is not in file system,
+// Then serve index view
+app.get("*", function(request, response){
+    response.render("index", { useExternalStyles, scriptRoot});
+});
+
+const port = process.env.PORT || 3000;
+server.listen(port, function(){
+    console.log(`Started http server on ${port}`);
+});
