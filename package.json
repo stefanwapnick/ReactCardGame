@@ -4,9 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node ./server.js",
-    "test": "node ./tests.js",
-    "gulp": "./node_modules/.bin/gulp"
+    "start": "./node_modules/.bin/gulp server:dev",
+    "test": "./node_modules/.bin/gulp server:dev:test"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +23,10 @@
     "gulp-babel": "^7.0.0",
     "gulp-changed": "^3.1.1",
     "gulp-load-plugins": "^1.5.0",
+    "gulp-nodemon": "^2.2.1",
     "gulp-sourcemaps": "^2.6.1",
+    "gulp-util": "^3.0.8",
+    "jasmine": "^2.8.0",
     "rimraf": "^2.6.2",
     "source-map-support": "^0.5.0"
   },
