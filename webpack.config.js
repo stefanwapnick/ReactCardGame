@@ -32,7 +32,7 @@ function createConfig(isDebug){
         json: {test: /\.json$/, loader: "json"},
         css: {test: /\.css$/, loader: "style!css?sourceMap"},
         sass: {test: /\.scss$/, loader: "style!css?sourceMap!sass?sourceMap"},
-        files: {test: /\.(png|jpg|jpeg|gif|woff|tff|eot|svg|woff2)/, loader: "url-loader?limit=5000"},
+        files: {test: /\.(png|jpg|jpeg|gif|woff|ttf|eot|svg|woff2)/, loader: "url-loader?limit=5000" }
     };
 
     const clientEntry = ["./src/client/client.js"];

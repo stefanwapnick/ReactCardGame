@@ -2,8 +2,14 @@
 import gulp from "gulp";
 import path from "path";
 import child_process from "child_process";
+import webpackConfig from "./webpack.config";
+import webpack from "webpack";
+import WebpackDevServer from "webpack-dev-server";
+
 // Rimraf is npm package used to delete directories
 import rimraf from "rimraf";
+
+
 
 // This will import all plugins from package.json and put them in plugins variable
 const plugins = require("gulp-load-plugins")();
@@ -69,3 +75,42 @@ gulp.task("server:watch", gulp.series("server:clean","server:build", buildOnFile
 gulp.task("server:dev", gulp.series("server:cleanbuild", gulp.parallel(buildOnFileChanges, runServerOnChange)));
 
 gulp.task("server:dev:test", gulp.series("server:cleanbuild", gulp.parallel(buildOnFileChanges, runTestsOnChange)));
+
+
+// ----------------------------------------------
+// Client
+function buildClient(callback){
+    webpack(webpackConfig, function(error, stats){
+        if(error){
+            callback(error);
+            return;
+        }
+
+        console.log(stats.toString());
+        callback();
+    });
+}
+
+function watchClient() {
+    const compiler = webpack(webpackConfig);
+    const server = new WebpackDevServer(compiler, {
+        publicPath: "/build/",
+        hot: true
+    });
+
+    server.listen(8080, function(){});
+}
+
+gulp.task("client:clean", function(callback){
+    rimraf("./public/build", function(){
+        callback();
+    });
+});
+gulp.task("client:build", gulp.series("client:clean", buildClient));
+gulp.task("client:dev", gulp.series("client:clean", watchClient));
+
+
+// ----------------------------------------------------
+// Run tasks
+gulp.task("dev", gulp.parallel("server:dev", "client:dev"));
+gulp.task("build", gulp.parallel("server:build", "client:build"));

@@ -1,3 +1,8 @@
+// Need to override fa-font-path variable to point to root directly instead of ./font-awesome
+// since webpack scss loader does not understand relative paths
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
+
 body{
   background: #eee;
   h1{

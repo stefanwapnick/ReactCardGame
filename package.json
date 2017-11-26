@@ -27,6 +27,7 @@
     "express": "^4.16.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^1.1.5",
+    "font-awesome": "^4.7.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-babel": "^7.0.0",
     "gulp-changed": "^3.1.1",
