@@ -11,7 +11,9 @@
   "rules": {
     "indent": ["error", 4],
     "semi": ["error", "always"],
-    "no-console": "off"
+    "no-console": "off",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   },
   "globals": {
     "process": false,

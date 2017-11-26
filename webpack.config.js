@@ -4,7 +4,9 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const vendor = [
-    "lodash"
+    "lodash",
+    "react",
+    "react-dev"
 ];
 
 function createConfig(isDebug){
@@ -41,7 +43,7 @@ function createConfig(isDebug){
     if(isDebug){
         //Configure hot-reloading, but for development only
         plugins.push(new webpack.HotModuleReplacementPlugin());
-        clientEntry.unshift("webpack-dev-server/client?http://localhost:8080/", "webpack/hot/only-dev-server");
+        clientEntry.unshift("react-hot-loader/patch, webpack-dev-server/client?http://localhost:8080/", "webpack/hot/only-dev-server");
         publicPath = "http://localhost:8080/build/";
     }else{
         // In non-debug version, we will extract all style imports into a seperate file using the ExtractTextPlugin
