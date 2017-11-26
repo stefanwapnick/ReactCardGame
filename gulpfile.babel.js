@@ -61,29 +61,34 @@ gulp.task("server:build", function(){
         .pipe(gulp.dest("./build"));
 });
 
+// Clean server build directory
 gulp.task("server:clean", function(callback){
     rimraf("./build", () => callback());
 });
 
+// Test server code
 gulp.task("server:test", gulp.series("server:build", runTests));
 
+// Clean and build
 gulp.task("server:cleanbuild", gulp.series("server:clean", "server:build"));
 
+// Watch server files for changes, build on change
 gulp.task("server:watch", gulp.series("server:clean","server:build", buildOnFileChanges));
 
 // Whenever the build folder changes, nodemon will re-run server.js file
 gulp.task("server:dev", gulp.series("server:cleanbuild", gulp.parallel(buildOnFileChanges, runServerOnChange)));
 
+// Whenver files change, re-run tests
 gulp.task("server:dev:test", gulp.series("server:cleanbuild", gulp.parallel(buildOnFileChanges, runTestsOnChange)));
 
 
 // ----------------------------------------------
-// Client
-
+// CLIENT BUILD TASKS
+// ----------------------------------------------------
 const consoleStats = {
     colors: true,
     exclude: ["node_modules"],
-    chunks: false,
+    chunks: true,
     assets: false,
     timings: true,
     modules: false,
@@ -129,6 +134,7 @@ gulp.task("client:dev", gulp.series("client:clean", watchClient));
 
 
 // ----------------------------------------------------
-// Run tasks
+// GENERAL RUN TASKS
+// ----------------------------------------------------
 gulp.task("dev", gulp.parallel("server:dev", "client:dev"));
 gulp.task("build", gulp.parallel("server:build", "client:build"));
