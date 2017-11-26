@@ -12,5 +12,10 @@
     "indent": ["error", 4],
     "semi": ["error", "always"],
     "no-console": "off"
+  },
+  "globals": {
+    "process": false,
+    "IS_PRODUCTION": false,
+    "IS_DEVELOPMENT": false
   }
 }
