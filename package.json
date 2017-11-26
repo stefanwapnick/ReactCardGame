@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "./node_modules/.bin/gulp server:dev",
+    "start": "./node_modules/.bin/gulp dev",
     "test": "./node_modules/.bin/gulp server:dev:test"
   },
   "author": "",

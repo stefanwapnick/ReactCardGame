@@ -6,12 +6,12 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const vendor = [
     "lodash",
     "react",
-    "react-dev"
+    "react-dom"
 ];
 
 function createConfig(isDebug){
 
-    const devtool = isDebug ? "cheap-module-source-map" : null;
+    const devtool = isDebug ? "eval-source-map" : null;
 
     const plugins = [
         new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js"),
@@ -43,7 +43,11 @@ function createConfig(isDebug){
     if(isDebug){
         //Configure hot-reloading, but for development only
         plugins.push(new webpack.HotModuleReplacementPlugin());
-        clientEntry.unshift("react-hot-loader/patch, webpack-dev-server/client?http://localhost:8080/", "webpack/hot/only-dev-server");
+        clientEntry.unshift(
+            "react-hot-loader/patch",
+            "webpack-dev-server/client?http://localhost:8080/",
+            "webpack/hot/only-dev-server");
+
         publicPath = "http://localhost:8080/build/";
     }else{
         // In non-debug version, we will extract all style imports into a seperate file using the ExtractTextPlugin

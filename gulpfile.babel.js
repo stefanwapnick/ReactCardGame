@@ -79,6 +79,19 @@ gulp.task("server:dev:test", gulp.series("server:cleanbuild", gulp.parallel(buil
 
 // ----------------------------------------------
 // Client
+
+const consoleStats = {
+    colors: true,
+    exclude: ["node_modules"],
+    chunks: false,
+    assets: false,
+    timings: true,
+    modules: false,
+    hash: false,
+    version: false
+};
+
+
 function buildClient(callback){
     webpack(webpackConfig, function(error, stats){
         if(error){
@@ -86,7 +99,7 @@ function buildClient(callback){
             return;
         }
 
-        console.log(stats.toString());
+        console.log(stats.toString(consoleStats));
         callback();
     });
 }
@@ -95,7 +108,12 @@ function watchClient() {
     const compiler = webpack(webpackConfig);
     const server = new WebpackDevServer(compiler, {
         publicPath: "/build/",
-        hot: true
+        hot: true,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+        stats: consoleStats,
+        watchOptions: { aggregateTimeout: 300, poll: 500 }
     });
 
     server.listen(8080, function(){});
