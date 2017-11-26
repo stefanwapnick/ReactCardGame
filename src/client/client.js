@@ -1,3 +1,3 @@
 import "./client.scss";
 
-console.log("Stuff2");
+console.log("Test stuff");

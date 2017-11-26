@@ -39,7 +39,10 @@ function createConfig(isDebug){
     let publicPath = "/build/";
 
     if(isDebug){
-
+        //Configure hot-reloading, but for development only
+        plugins.push(new webpack.HotModuleReplacementPlugin());
+        clientEntry.unshift("webpack-dev-server/client?http://localhost:8080/", "webpack/hot/only-dev-server");
+        publicPath = "http://localhost:8080/build/";
     }else{
         // In non-debug version, we will extract all style imports into a seperate file using the ExtractTextPlugin
         plugins.push(
