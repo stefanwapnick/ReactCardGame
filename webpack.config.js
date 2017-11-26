@@ -3,10 +3,14 @@ const _ = require("lodash");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+// List of npm packages to be included in vendor.bundle.js
 const vendor = [
     "lodash",
     "react",
-    "react-dom"
+    "react-dom",
+    "react-router",
+    "socket.io-client",
+    "rxjs"
 ];
 
 function createConfig(isDebug){
@@ -37,7 +41,7 @@ function createConfig(isDebug){
         files: {test: /\.(png|jpg|jpeg|gif|woff|ttf|eot|svg|woff2)/, loader: "url-loader?limit=5000" }
     };
 
-    const clientEntry = ["./src/client/client.js"];
+    const clientEntry = ["babel-polyfill", "./src/client/client.js"];
     let publicPath = "/build/";
 
     if(isDebug){
