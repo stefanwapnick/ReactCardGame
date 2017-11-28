@@ -1,7 +1,6 @@
 import "./lobby.scss";
 import React from "react";
 import Chat from "./chat";
-import TextInput from "./controls";
 
 export class LobbyContainer extends React.Component{
 
@@ -9,8 +8,13 @@ export class LobbyContainer extends React.Component{
         super(props);
 
         this.joinGame = (game) => {
-            console.log("TODO: Implement join game");
+            console.log("TODO: Implement join game" + game.id);
         };
+
+        this.sendMessage = (message) => {
+            console.log(message);
+        };
+
     }
 
     render(){
@@ -23,10 +27,19 @@ export class LobbyContainer extends React.Component{
             {title: "Game5", id: 5, players: ["one, two, three"]}
         ];
 
+        const opSendMessage = {can: true, isProgress: false};
+        const messages = [
+            {index: 1, name: "Person", message: "Message1"},
+            {index: 2, name: "Person", message: "Message2"},
+            {index: 3, name: "Person", message: "Message3"},
+            {index: 4, name: "Person", message: "Message4"},
+            {index: 5, name: "Person", message: "Message5"}
+        ];
+
         return (
             <div className="c-lobby">
                 <GameList games={games} joinGame={this.joinGame}/>
-                <TextInput/>
+                <Chat messages={messages} opSendMessage={opSendMessage} sendMessage={this.sendMessage}/>
             </div>
         );
     }
