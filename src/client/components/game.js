@@ -4,7 +4,7 @@ import React from "react";
 export class GameContainer extends React.Component{
     render(){
         return (
-          <p>Game!</p>
+            <p>Game!</p>
         );
     }
 }

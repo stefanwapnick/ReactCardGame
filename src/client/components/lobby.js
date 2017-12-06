@@ -84,21 +84,21 @@ export class LobbySidebar extends React.Component{
 // Using object deconstruction to get games and join games from props immediately
 function GameList({games, joinGame}){
     return(
-      <section className="c-game-list">
-          {games.length > 0 ? null :
-            <div className="no-games">There are no games yet.</div>
-          }
+        <section className="c-game-list">
+            {games.length > 0 ? null :
+                <div className="no-games">There are no games yet.</div>
+            }
 
-          {games.map(game =>
-            <div className="game" key={game.id} onClick={() => joinGame(game)}>
-                <div className="title">{game.title}</div>
-                <div className="players">
-                    {game.players.join(", ")}
+            {games.map(game =>
+                <div className="game" key={game.id} onClick={() => joinGame(game)}>
+                    <div className="title">{game.title}</div>
+                    <div className="players">
+                        {game.players.join(", ")}
+                    </div>
+                    <div className="join-game">Join game</div>
                 </div>
-                <div className="join-game">Join game</div>
-            </div>
-          )}
+            )}
 
-      </section>
+        </section>
     );
 }
