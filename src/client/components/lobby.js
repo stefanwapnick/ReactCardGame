@@ -1,8 +1,9 @@
 import "./lobby.scss";
 import React from "react";
 import Chat from "./chat";
+import {ContainerBase} from "../lib/component";
 
-export class LobbyContainer extends React.Component{
+export class LobbyContainer extends ContainerBase{
 
     constructor(props){
         super(props);
@@ -45,7 +46,7 @@ export class LobbyContainer extends React.Component{
     }
 }
 
-export class LobbySidebar extends React.Component{
+export class LobbySidebar extends ContainerBase{
 
     constructor(props){
         super(props);

@@ -30,8 +30,8 @@ export class Dispatcher{
 
         this._handlers[type].push(callback);
 
-        // Un-subscribe logic. Caller does unsub = dispatcher.on().
-        // unsub();
+        // Un-subscribe logic. Caller does subscription = dispatcher.on().
+        // subscription.unsubscribe() will call this function
         return () => {
             const handlers = this._handlers[type];
             const index = handlers.indexOf(handler);
