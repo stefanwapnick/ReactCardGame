@@ -15,7 +15,7 @@ export function fail(action, error){
     return {...action, status: STATUS_FAIL, error};
 }
 
-export function success(action, error){
+export function success(action){
     return {...action, status: STATUS_SUCCESS};
 }
 
