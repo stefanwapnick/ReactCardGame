@@ -3,7 +3,7 @@ import "./loginDialog.scss";
 import React from "react";
 import * as Actions from "../../actions";
 import {ContainerBase} from "../../lib/component";
-import {TextInput} from "../controls";
+import TextInput from "../controls";
 
 class LoginDialog extends ContainerBase{
 

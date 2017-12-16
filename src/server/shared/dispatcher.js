@@ -7,7 +7,7 @@ export class Dispatcher{
     constructor(){
         this._handlers = {};
         this._emitBuffer = [];
-        this._inEmit = {};
+        this._inEmit = false;
     }
 
     on(typeOrCallbacks, callback = null, statusFilter = null){
@@ -28,7 +28,7 @@ export class Dispatcher{
         if(!this._handlers.hasOwnProperty(type))
             this._handlers[type] = [];
 
-        this._handlers[type].push(callback);
+        this._handlers[type].push(handler);
 
         // Un-subscribe logic. Caller does subscription = dispatcher.on().
         // subscription.unsubscribe() will call this function

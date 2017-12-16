@@ -30,7 +30,7 @@ export default class UserStore{
                     return;
                 }
 
-                dispatcher.succeed(action);
+                dispatcher.success(action);
                 this.details$.next({
                     isLoggedIn: true,
                     id: 4432,
