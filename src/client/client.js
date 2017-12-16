@@ -7,7 +7,6 @@ import {StoreProvider} from './lib/component';
 import * as Actions from "./actions";
 import {Dispatcher} from "shared/dispatcher";
 import createStores from "./stores";
-import _ from "lodash";
 
 // ----------------------------
 // Services
@@ -51,17 +50,17 @@ if (module.hot) {
 function printAction(action){
     if(action.hasOwnProperty("status")){
 
-       let color = null;
-       switch(action.status){
-           case Actions.STATUS_REQUEST: color = "color: blue"; break;
-           case Actions.STATUS_SUCCESS: color = "color: green"; break;
-           case Actions.STATUS_FAIL: color = "color: red"; break;
-       }
+        let color = null;
+        switch(action.status){
+        case Actions.STATUS_REQUEST: color = "color: blue"; break;
+        case Actions.STATUS_SUCCESS: color = "color: green"; break;
+        case Actions.STATUS_FAIL: color = "color: red"; break;
+        }
 
-       console.log(`%c${action.type}`, `${color}; font-weight: bold; background: #eee; width: 100%; display: block;`)
+        console.log(`%c${action.type}`, `${color}; font-weight: bold; background: #eee; width: 100%; display: block;`);
 
     }else{
-       console.log(`%c${action.type}`, `background: #ddd;`)
+        console.log(`%c${action.type}`, `background: #ddd;`);
     }
 
     console.log(action);

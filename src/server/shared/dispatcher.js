@@ -6,14 +6,14 @@ export class Dispatcher{
 
     constructor(){
         this._handlers = {};
-        this._emitBuffer = {};
+        this._emitBuffer = [];
         this._inEmit = {};
     }
 
-    on(typeOrCallback, callback = null, statusFilter = null){
+    on(typeOrCallbacks, callback = null, statusFilter = null){
 
         if(_.isObject(typeOrCallbacks)){
-            const handlers = _.map(typeOrCallback,
+            const handlers = _.map(typeOrCallbacks,
                 (callback, type) => this.on(type, callback, statusFilter));
             return () => handlers.forEach(unsub => unsub());
         }
@@ -25,8 +25,8 @@ export class Dispatcher{
         const handler = {callback, statusFilter};
 
 
-        if(!this._handlers.hasOwnProperty(callback))
-            this._handlers[callback] = [];
+        if(!this._handlers.hasOwnProperty(type))
+            this._handlers[type] = [];
 
         this._handlers[type].push(callback);
 
@@ -49,15 +49,15 @@ export class Dispatcher{
     }
 
     onRequest(typeOfCallback, callback = null){
-        return this.on(typeOfCallback, callback, Actions.STATUS_REQUEST)
+        return this.on(typeOfCallback, callback, Actions.STATUS_REQUEST);
     }
 
     onFail(typeOfCallback, callback = null){
-        return this.on(typeOfCallback, callback, Actions.STATUS_FAIL)
+        return this.on(typeOfCallback, callback, Actions.STATUS_FAIL);
     }
 
     onSuccess(typeOfCallback, callback = null){
-        return this.on(typeOfCallback, callback, Actions.STATUS_SUCCESS)
+        return this.on(typeOfCallback, callback, Actions.STATUS_SUCCESS);
     }
 
     onRequest$(typeOfCallback, callback = null){
@@ -84,14 +84,14 @@ export class Dispatcher{
     }
 
     success(action){
-        this.emit(Actions.success(action))
+        this.emit(Actions.success(action));
     }
 
     respond(action, validator){
         if(validator.didFail){
             this.fail(action, validator.message);
         }else{
-            this.success(action)
+            this.success(action);
         }
 
     }
@@ -100,7 +100,7 @@ export class Dispatcher{
     emit(action){
 
         if(this._inEmit){
-            this._emitBuffer(action);
+            this._emitBuffer.push(action);
             return;
         }
 

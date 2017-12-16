@@ -6,11 +6,11 @@ import {ContainerBase} from "../lib/component";
 
 class AppContainer extends ContainerBase {
 
-    componentDidMount(){
+    componentWillMount(){
         const {stores: {appStore}} = this.context;
 
         // Whenever observable changes, re-set state and re-render component
-        this.subscribe(appStore.dialogs$, dialogs => this.setState({dialogs: dialogs}))
+        this.subscribe(appStore.dialogs$, dialogs => this.setState({dialogs: dialogs}));
     }
 
     render() {
@@ -19,8 +19,8 @@ class AppContainer extends ContainerBase {
         const {dialogs} = this.state;
 
         const dialogStack = dialogs.map(dialog => {
-           const DialogComponent = dialogTypes[dialog.id];
-           return <DialogComponent {...dialog.props} key={dialog.id}/>;
+            const DialogComponent = dialogTypes[dialog.id];
+            return <DialogComponent {...dialog.props} key={dialog.id}/>;
         });
 
         return (

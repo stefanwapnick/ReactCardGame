@@ -67,7 +67,7 @@ class LoginDialog extends ContainerBase{
 
                 </form>
             </section>
-        )
+        );
     }
 }
 

@@ -22,9 +22,9 @@ export class LobbyContainer extends ContainerBase{
     }
 
     componentWillMount(){
-        const {store: {lobbyStore}} = this.context;
+        const {stores: {lobbyStore}} = this.context;
 
-        this.subscribe(lobbyStore.opSendMessage, opSendMessage => this.setState({opSendMessage}));
+        this.subscribe(lobbyStore.opSendMessage$, opSendMessage => this.setState({opSendMessage}));
         this.subscribe(lobbyStore.view$, lobby => this.setState({lobby}));
     }
 
@@ -47,7 +47,7 @@ export class LobbyContainer extends ContainerBase{
         //     {index: 5, name: "Person", message: "Message5"}
         // ];
 
-        const {lobbyStore: {games, messages}, opSendMessage} = this.state;
+        const {lobby: {games, messages}, opSendMessage} = this.state;
 
         return (
             <div className="c-lobby">

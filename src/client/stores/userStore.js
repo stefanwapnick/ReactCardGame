@@ -1,6 +1,6 @@
-import {Observable, BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import * as Actions from "../actions";
-import {mapOp$} from "../../server/shared/observable"
+import {mapOp$} from "../../server/shared/observable";
 import {validateName} from "../../server/shared/validation/userValidator";
 
 const defaultDetails = {

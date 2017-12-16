@@ -23,14 +23,14 @@ const defaultView = {
 
 export default class LobbyStore{
 
-    constructor({dispatcher}, user){
+    constructor({dispatcher}, userStore){
         this.view$ = Observable.of(defaultView);
 
         dispatcher.onRequest({
             [Actions.LOBBY_JOIN]: action => dispatcher.succeed(action),
             [Actions.LOBBY_SEND_MESSAGE]: action => {
                 const validator = new Validator();
-                if(!user.isLoggedIn){
+                if(!userStore.isLoggedIn){
                     validator.push("You must be logged in");
                 }
 
@@ -47,8 +47,8 @@ export default class LobbyStore{
 
         this.opSendMessage$ = mapOp$(
             dispatcher.on$(Actions.LOBBY_SEND_MESSAGE),
-            user.details$.map(u => u.isLoggedIn)
-        )
+            userStore.details$.map(u => u.isLoggedIn)
+        );
 
     }
 

@@ -5,8 +5,8 @@ import UserStore from "./userStore";
 
 export default function(services){
     const userStore = new UserStore(services);
-    const gameStore = new GameStore(services);
-    const lobbyStore = new LobbyStore(services);
+    const gameStore = new GameStore(services, userStore);
+    const lobbyStore = new LobbyStore(services, userStore);
     const appStore = new AppStore(services);
 
     return {
@@ -14,6 +14,6 @@ export default function(services){
         gameStore,
         lobbyStore,
         appStore
-    }
+    };
 
 }

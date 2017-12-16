@@ -7,8 +7,8 @@ export class StoreProvider extends React.Component {
     }
 
     getChildContext(){
-        const {store, services} = this.props;
-        return {store, services};
+        const {stores, services} = this.props;
+        return {stores, services};
     }
 }
 
