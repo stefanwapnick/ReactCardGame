@@ -9,34 +9,45 @@ export class LobbyContainer extends ContainerBase{
     constructor(props){
         super(props);
 
-        this.joinGame = (game) => {
-            console.log("TODO: Implement join game" + game.id);
-        };
+        // this.gameJoin = (game) => {
+        //     console.log("TODO: Implement join game" + game.id);
+        // };
 
-        this.sendMessage = (message) => {
-            console.log(message);
-        };
+        // this.sendMessage = (message) => {
+        //     console.log(message);
+        // };
 
+        this.joinGame = (game) => this.request(Actions.gameJoin(game.id));
+        this.sendMessage = (message) => this.request(Actions.lobbySendMessage(message));
+    }
+
+    componentWillMount(){
+        const {store: {lobbyStore}} = this.context;
+
+        this.subscribe(lobbyStore.opSendMessage, opSendMessage => this.setState({opSendMessage}));
+        this.subscribe(lobbyStore.view$, lobby => this.setState({lobby}));
     }
 
     render(){
 
-        const games = [
-            {title: "Game1", id: 1, players: ["one, two, three"]},
-            {title: "Game2", id: 2, players: ["one, two, three"]},
-            {title: "Game3", id: 3, players: ["one, two, three"]},
-            {title: "Game4", id: 4, players: ["one, two, three"]},
-            {title: "Game5", id: 5, players: ["one, two, three"]}
-        ];
+        // const games = [
+        //     {title: "Game1", id: 1, players: ["one, two, three"]},
+        //     {title: "Game2", id: 2, players: ["one, two, three"]},
+        //     {title: "Game3", id: 3, players: ["one, two, three"]},
+        //     {title: "Game4", id: 4, players: ["one, two, three"]},
+        //     {title: "Game5", id: 5, players: ["one, two, three"]}
+        // ];
 
-        const opSendMessage = {can: true, isProgress: false};
-        const messages = [
-            {index: 1, name: "Person", message: "Message1"},
-            {index: 2, name: "Person", message: "Message2"},
-            {index: 3, name: "Person", message: "Message3"},
-            {index: 4, name: "Person", message: "Message4"},
-            {index: 5, name: "Person", message: "Message5"}
-        ];
+        //const opSendMessage = {can: true, isProgress: false};
+        // const messages = [
+        //     {index: 1, name: "Person", message: "Message1"},
+        //     {index: 2, name: "Person", message: "Message2"},
+        //     {index: 3, name: "Person", message: "Message3"},
+        //     {index: 4, name: "Person", message: "Message4"},
+        //     {index: 5, name: "Person", message: "Message5"}
+        // ];
+
+        const {lobbyStore: {games, messages}, opSendMessage} = this.state;
 
         return (
             <div className="c-lobby">
@@ -52,29 +63,27 @@ export class LobbySidebar extends ContainerBase{
     constructor(props){
         super(props);
 
-        this.login = () => {
-            console.log("TODO: Implement login");
-            this.dispatch(Actions.dialogSet(Actions.DIALOG_LOGIN, true));
-        };
+        this.login = () => this.dispatch(Actions.dialogSet(Actions.DIALOG_LOGIN, true));
+        this.createGame = () => this.request(Actions.gameCreate());
+    }
 
-        this.createGame = () => {
-            console.log("TODO: Implement create game");
-        };
+    componentWillMount(){
+        const {stores: {userStore, gameStore}} = this.context;
+        this.subscribe(userStore.opLogin$, opLogin => this.setState({opLogin}));
+        this.subscribe(gameStore.opCreateGame$, opCreateGame => this.setState({opCreateGame}));
     }
 
     render(){
 
-        const canLogin = true;
-        const canCreateGame = true;
-        const createGameInProcess = false;
+        const {opLogin, opCreateGame} = this.state;
 
         return (
             <section className="c-lobby-sidebar">
                 <div className="m-sidebar-buttons">
-                    {!canLogin ? null : <button className="m-button primary" onClick={this.login}>Login</button>}
+                    {!opLogin.can ? null : <button className="m-button primary" onClick={this.login}>Login</button>}
 
-                    {!canCreateGame ? null :
-                        <button onClick={this.createGame} disabled={createGameInProcess} className="m-button good">
+                    {!opCreateGame.can ? null :
+                        <button onClick={this.createGame} disabled={opCreateGame.inProgress} className="m-button good">
                             Create Game
                         </button>}
 
