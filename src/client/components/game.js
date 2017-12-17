@@ -97,7 +97,7 @@ export class GameSidebar extends ContainerBase{
         super(props);
 
         this._exitGame = () => this.props.router.push('/');
-        this._login = () => this.dispatcher(Actions.dialogSet(Actions.DIALOG_LOGIN, true));
+        this._login = () => this.dispatch(Actions.dialogSet(Actions.DIALOG_LOGIN, true));
     }
 
     componentWillMount(){
@@ -114,7 +114,7 @@ export class GameSidebar extends ContainerBase{
             <section className="c-game-sidebar">
                 <div className="m-sidebar-buttons">
                     {!opLogin.can ? null :
-                        <button className="m-button- primary" onClick={this._login}>
+                        <button className="m-button primary" onClick={this._login}>
                             Login to join game
                         </button>}
 

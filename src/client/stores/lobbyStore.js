@@ -27,7 +27,7 @@ export default class LobbyStore{
         this.view$ = Observable.of(defaultView);
 
         dispatcher.onRequest({
-            [Actions.LOBBY_JOIN]: action => dispatcher.succeed(action),
+            [Actions.LOBBY_JOIN]: action => dispatcher.success(action),
             [Actions.LOBBY_SEND_MESSAGE]: action => {
                 const validator = new Validator();
                 if(!userStore.isLoggedIn){

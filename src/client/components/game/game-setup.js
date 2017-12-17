@@ -88,6 +88,7 @@ export default class GameSetup extends ContainerBase {
                         <SetList sets={setList} toggleSet={this._toggleSet}/>
                     </div>
                     <button className="m-button start-game good" onClick={this._startGame} disabled={disabled}>
+                        Start Game
                     </button>
                 </form>
             </section>
