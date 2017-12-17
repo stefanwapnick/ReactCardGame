@@ -22,10 +22,13 @@ export class LobbyContainer extends ContainerBase{
     }
 
     componentWillMount(){
-        const {stores: {lobbyStore}} = this.context;
+        const {stores: {lobbyStore, appStore}} = this.context;
 
         this.subscribe(lobbyStore.opSendMessage$, opSendMessage => this.setState({opSendMessage}));
         this.subscribe(lobbyStore.view$, lobby => this.setState({lobby}));
+        this.subscribe(appStore.reconnected$, () => this.request(Actions.lobbyJoin()));
+
+        this.request(Actions.lobbyJoin());
     }
 
     render(){

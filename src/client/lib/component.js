@@ -23,6 +23,9 @@ StoreProvider.childContextTypes = {
 };
 
 
+/**
+    Utility base class for managing rxjs observable subscriptions and un-subscribing actions
+ **/
 export class ContainerBase extends React.Component{
     constructor(props){
         super(props);

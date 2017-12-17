@@ -1,6 +1,7 @@
 import {Observable} from "rxjs";
 import * as Actions from "./actions";
 
+// Operation to execute observable and can execute observable (similar to RelayAction in WPF MVVM)
 // Utility method that maps an operation observable and a can$ observable to a new observable
 // in the form  {can: can, isProgress: bool, failed: bool};
 export function mapOp$(op$, can$ = Observable.of(true)){
