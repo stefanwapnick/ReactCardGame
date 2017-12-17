@@ -7,13 +7,17 @@ import {StoreProvider} from './lib/component';
 import * as Actions from "./actions";
 import {Dispatcher} from "shared/dispatcher";
 import createStores from "./stores";
+import io from "socket.io-client";
 
 // ----------------------------
 // Services
 const dispatcher = new Dispatcher();
-const services = {dispatcher};
+const socket = io();
+const services = {dispatcher, socket};
 
 dispatcher.on("*", printAction);
+
+socket.on("action", action => dispatcher.emit(action));
 
 // ----------------------------
 // Stores
