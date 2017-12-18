@@ -10,7 +10,7 @@ export class Round {
 	}
 
 	get areAllStacksFinished() {
-		return _.every(this.stacks, s => s.player == this.czar || this.isStackFinished(s));
+		return _.every(this.stacks, s => s.player === this.czar || this.isStackFinished(s));
 	}
 
 	constructor(blackCard, czar, players) {
@@ -21,7 +21,7 @@ export class Round {
 
 		let stackId = 0;
 		this.stacks = players
-			.filter(p => p != czar)
+			.filter(p => p !== czar)
 			.reduce((obj, player) => {
 				stackId++;
 				obj[stackId] = {
@@ -45,12 +45,12 @@ export class Round {
 	}
 
 	getStackByPlayerId(playerId) {
-		return _.find(this.stacks, s => s.player.id == playerId);
+		return _.find(this.stacks, s => s.player.id === playerId);
 	}
 
 	addCardToStack(card, stackOrStackId) {
 		const stack = this.getStack(stackOrStackId);
-		if (stack.cards.length == 0)
+		if (stack.cards.length === 0)
 			this.stackList.push(stack);
 
 		stack.cards.push(card);
@@ -59,7 +59,7 @@ export class Round {
 	getStackDetails(stackOrStackId, forceReveal = false) {
 		const stack = this.getStack(stackOrStackId);
 		return forceReveal || this.areAllStacksRevealed
-			? {id: stack.id, cards: stack.cards.slice(), isWinner: stack == this.winningStack}
+			? {id: stack.id, cards: stack.cards.slice(), isWinner: stack === this.winningStack}
 			: {id: stack.id, count: stack.cards.length};
 	}
 
@@ -76,7 +76,7 @@ export class Round {
 		const stack = this.getStack(stackOrStackId);
 		const index = this.stackList.indexOf(stack);
 
-		if (index != -1)
+		if (index !== -1)
 			this.stackList.slpice(index, 1);
 
 		delete this.stacks[stack.id];
@@ -104,6 +104,6 @@ export class Round {
 	}
 
 	isStackFinished(stackOrStackId) {
-		return this.getStack(stackOrStackId).cards.length == this.blackCard.whiteCardCount;
+		return this.getStack(stackOrStackId).cards.length === this.blackCard.whiteCardCount;
 	}
 }

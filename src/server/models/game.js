@@ -1,5 +1,5 @@
 import _ from "lodash";
-import * as A from "../actions";
+import * as Actions from "../actions";
 import {Validator} from "../shared/validation";
 import {RoomBase} from "../lib/room";
 import {Player} from "./player";
@@ -30,16 +30,16 @@ export class Game extends RoomBase {
 	}
 
 	get isDisposed() {
-		return this.step == A.STEP_DISPOSED;
+		return this.step === Actions.STEP_DISPOSED;
 	}
 
 	constructor(id, title, app) {
-		super(A.VIEW_GAME);
+		super(Actions.VIEW_GAME);
 		this.id = id;
 		this.title = title;
 		this.app = app;
 		this.players = [];
-		this.step = A.STEP_SETUP;
+		this.step = Actions.STEP_SETUP;
 		this.messages = [];
 		this.round = null;
 		this.options = {
@@ -47,16 +47,16 @@ export class Game extends RoomBase {
 			sets: app.cards.sets.map(s => s.id)
 		};
 
-		app.dispatcher.on(A.PLAYER_DISPOSED, ({gameId, playerId}) => {
-			if (gameId != this.id)
+		app.dispatcher.on(Actions.PLAYER_DISPOSED, ({gameId, playerId}) => {
+			if (gameId !== this.id)
 				return;
 
 			const playerIndex = _.findIndex(this.players, {id: playerId});
-			if (playerIndex == -1)
+			if (playerIndex === -1)
 				return;
 
 			this._tick(() => this.players.splice(playerIndex, 1));
-			this.app.dispatcher.emit(A.gameSummaryChanged(this.id, this.summary));
+			this.app.dispatcher.emit(Actions.gameSummaryChanged(this.id, this.summary));
 		});
 	}
 
@@ -64,7 +64,7 @@ export class Game extends RoomBase {
 		this._ensureActive();
 		const player = new Player(this, id, name);
 		this._tick(() => this.players.push(player));
-		this.app.dispatcher.emit(A.gameSummaryChanged(this.id, this.summary));
+		this.app.dispatcher.emit(Actions.gameSummaryChanged(this.id, this.summary));
 		return player;
 	}
 
@@ -93,7 +93,7 @@ export class Game extends RoomBase {
 	start() {
 		this._ensureActive();
 		const validator = new Validator();
-		validator.assert(this.step == A.STEP_SETUP, "Game already started");
+		validator.assert(this.step === Actions.STEP_SETUP, "Game already started");
 		validator.assert(this.players.length >= MINIMUM_PLAYERS, "Too few players");
 		validator.assert(this.options.sets.length > 0, "Please select a set");
 
@@ -113,7 +113,7 @@ export class Game extends RoomBase {
 
 	addCardToStack(card, stackOrStackId) {
 		this._ensureActive();
-		if (this.step != A.STEP_CHOOSE_WHITES)
+		if (this.step !== Actions.STEP_CHOOSE_WHITES)
 			return Validator.fail("You can't do that now");
 
 		if (this.round.isStackFinished(stackOrStackId))
@@ -125,7 +125,7 @@ export class Game extends RoomBase {
 
 	selectStack(stackOrStackId) {
 		this._ensureActive();
-		if (this.step != A.STEP_JUDGE_STACKS)
+		if (this.step !== Actions.STEP_JUDGE_STACKS)
 			return Validator.fail("You can't do that now");
 
 		this._tick(() => this.round.selectWinner(stackOrStackId));
@@ -159,34 +159,34 @@ export class Game extends RoomBase {
 	}
 
 	_postTick() {
-		if (!this.isDisposed && this.step != A.STEP_WAIT && this.step != A.STEP_SETUP) {
+		if (!this.isDisposed && this.step !== Actions.STEP_WAIT && this.step !== Actions.STEP_SETUP) {
 			if (this.players.length < MINIMUM_PLAYERS)
-				this._transitionStep(A.WAIT_GAME_OVER, A.WAIT_REASON_TOO_FEW_PLAYERS);
+				this._transitionStep(Actions.WAIT_GAME_OVER, A.WAIT_REASON_TOO_FEW_PLAYERS);
 
 			else if (!this.players.includes(this.round.czar))
-				this._transitionStep(A.WAIT_ROUND_OVER, A.WAIT_REASON_CZAR_LEFT);
+				this._transitionStep(Actions.WAIT_ROUND_OVER, A.WAIT_REASON_CZAR_LEFT);
 
-			else if (_.keys(this.round.stacks).length == 0)
-				this._transitionStep(A.WAIT_ROUND_OVER, A.WAIT_REASON_TOO_FEW_PLAYERS);
+			else if (_.keys(this.round.stacks).length === 0)
+				this._transitionStep(Actions.WAIT_ROUND_OVER, A.WAIT_REASON_TOO_FEW_PLAYERS);
 
-			else if (this.step == A.STEP_CHOOSE_WHITES && this.round.areAllStacksFinished) {
+			else if (this.step === Actions.STEP_CHOOSE_WHITES && this.round.areAllStacksFinished) {
 				this.round.revealStacks();
 				this.step = A.STEP_JUDGE_STACKS;
 			}
 
-			else if (this.step == A.STEP_JUDGE_STACKS && this.round.winningStack) {
+			else if (this.step === ActionsSTEP_JUDGE_STACKS && this.round.winningStack) {
 				this.round.winningStack.player.addPoints(1);
 
 				if (_.some(this.players, p => p.score >= this.options.scoreLimit)) {
-					this._transitionStep(A.WAIT_GAME_OVER, A.WAIT_REASON_GAME_FINISHED);
+					this._transitionStep(Actions.WAIT_GAME_OVER, A.WAIT_REASON_GAME_FINISHED);
 				} else {
 					this._nextCzarIndex = (this.players.indexOf(this.round.czar) + 1) % this.players.length;
-					this._transitionStep(A.WAIT_ROUND_OVER, A.WAIT_REASON_ROUND_FINISHED);
+					this._transitionStep(Actions.WAIT_ROUND_OVER, A.WAIT_REASON_ROUND_FINISHED);
 				}
 			}
 		}
 
-		if (this.players.length == 0) {
+		if (this.players.length === 0) {
 			this.dispose();
 		}
 	}
@@ -201,25 +201,25 @@ export class Game extends RoomBase {
 
 			this._tick(() => {
 				this.timer = null;
-				if (type == A.WAIT_GAME_OVER) {
-					this.step = A.STEP_SETUP;
+				if (type === Actions.WAIT_GAME_OVER) {
+					this.step = Actions.STEP_SETUP;
 					this.round = null;
-				} else if (type == A.WAIT_ROUND_OVER) {
+				} else if (type === Actions.WAIT_ROUND_OVER) {
 					for (let player of this.players)
 						player.onRoundEnd();
 
-					this._nextRound(reason != A.WAIT_REASON_ROUND_FINISHED);
+					this._nextRound(reason !== Actions.WAIT_REASON_ROUND_FINISHED);
 				}
 			});
 		}, 5000);
 	}
 
 	dispose() {
-		if (this.step == A.STEP_DISPOSED)
+		if (this.step === Actions.STEP_DISPOSED)
 			return;
 
-		this._tick(() => this.step = A.STEP_DISPOSED);
-		this.app.dispatcher.emit(A.gameDisposed(this.id));
+		this._tick(() => this.step = Actions.STEP_DISPOSED);
+		this.app.dispatcher.emit(Actions.gameDisposed(this.id));
 	}
 
 	_ensureActive() {

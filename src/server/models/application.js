@@ -1,6 +1,7 @@
 import * as Actions from "../actions";
 import {Dispatcher} from "../shared/dispatcher";
 import {RoomBase} from "../lib/room";
+import {Lobby} from "./lobby";
 
 export class Application extends RoomBase{
 
@@ -14,7 +15,7 @@ export class Application extends RoomBase{
         super(Actions.VIEW_APP);
         this.dispatcher = new Dispatcher();
         this.cards = cards;
-        // TODO: Make lobby
+        this.lobby = new Lobby(this);
     }
 
 }

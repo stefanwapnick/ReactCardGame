@@ -1,4 +1,3 @@
-import {BehaviorSubject} from "rxjs";
 import * as Actions from "../actions";
 import {mapOp$} from "../../server/shared/observable";
 import {validateName} from "../../server/shared/validation/userValidator";
@@ -11,11 +10,17 @@ const defaultDetails = {
 
 export default class UserStore{
 
-    constructor({dispatcher}){
+    constructor({dispatcher, socket}){
 
         // Make new subject that can be subscribed to
         // Set default value for first observable events
-        this.details$ = new BehaviorSubject(defaultDetails);
+        this.details$ = dispatcher
+            .on$(Actions.USER_DETAILS_SET)
+            .map(a => a.details)
+            .startWith(defaultDetails)
+            .publishReplay(1);
+
+        this.details$.connect();
 
         // Copy properties from details object to properties on this class
         this.details$.subscribe(details => Object.keys(details).forEach(k => this[k] = details[k]));
@@ -31,12 +36,7 @@ export default class UserStore{
                 }
 
                 dispatcher.success(action);
-                this.details$.next({
-                    isLoggedIn: true,
-                    id: 4432,
-                    name: action.name
-                });
-
+                socket.emit("actions", action);
             }
         });
 

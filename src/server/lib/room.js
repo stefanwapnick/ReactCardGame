@@ -2,13 +2,12 @@ import _ from "lodash";
 import * as Actions from "../actions";
 import {makeDiff, IS_UNCHANGED} from "../shared/diff";
 
-export class RoomBase{
-
-    get view(){
+export class RoomBase {
+    get view() {
         throw new Error("Please implement a view");
     }
 
-    constructor(viewId){
+    constructor(viewId) {
         this.id = undefined;
         this._viewId = viewId;
         this._inTick = false;
@@ -16,47 +15,45 @@ export class RoomBase{
         this.clients = [];
     }
 
-    addClient(client){
+    addClient(client) {
         this.clients.push(client);
         client.emit(Actions.setView(this._viewId, this.view, this.id));
         return () => _.remove(this.clients, {id: client.id});
     }
 
-    broadcast(action){
-        for(let client of this.clients)
+    broadcast(action) {
+        for (let client of this.clients)
             client.emit(action);
     }
 
-    _tick(action){
-        if(this._inTick){
-            if(action)
+    _tick(action) {
+        if (this._inTick) {
+            if (action)
                 action();
 
             return null;
         }
 
         this._inTick = true;
-
-        if(action){
-            try{
+        try {
+            if (action) {
                 action();
-            }finally {
-                this._inTick = false;
             }
+        } finally {
+            this._inTick = false;
         }
 
         this._postTick();
         const newView = this.view;
         const diff = makeDiff(this._lastView, newView);
 
-        if(diff !== IS_UNCHANGED)
+        if (diff !== IS_UNCHANGED)
             this.broadcast(Actions.mergeView(this._viewId, diff, this.id));
 
         this._lastView = newView;
         return diff;
     }
 
-    _postTick(){
-
+    _postTick() {
     }
 }

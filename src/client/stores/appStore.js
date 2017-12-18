@@ -1,5 +1,4 @@
 import * as Actions from "../actions";
-import {Observable, BehaviorSubject} from "rxjs";
 import _ from "lodash";
 import {createView$} from "../lib/stores";
 

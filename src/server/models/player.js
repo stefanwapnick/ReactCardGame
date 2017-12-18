@@ -1,5 +1,5 @@
 import _ from "lodash";
-import * as A from "../actions";
+import * as Actions from "../actions";
 import {Validator} from "../shared/validation";
 import {RoomBase} from "../lib/room";
 
@@ -22,14 +22,14 @@ export class Player extends RoomBase {
 			name: this.name,
 			score: this.score,
 
-			isCzar: round ? round.czar == this : false,
+			isCzar: round ? round.czar === this : false,
 			isPlaying: round ? round.isPlayerPlaying(this) : false,
-			isWinner: (round && round.winningStack) ? round.winningStack.player == this : false
+			isWinner: (round && round.winningStack) ? round.winningStack.player === this : false
 		};
 	}
 
 	constructor(game, id, name) {
-		super(A.VIEW_PLAYER);
+		super(Actions.VIEW_PLAYER);
 		this.name = name;
 		this.id = id;
 		this.game = game;
@@ -78,7 +78,7 @@ export class Player extends RoomBase {
 			return Validator.fail("You are not in this round!");
 
 		const cardIndex = _.findIndex(this.hand, {id: cardId});
-		if (cardIndex == -1)
+		if (cardIndex === -1)
 			return Validator.fail("Invalid card!");
 
 		const result = this.game.addCardToStack(
@@ -93,7 +93,7 @@ export class Player extends RoomBase {
 	}
 
 	selectStack(stackId) {
-		if (!this.game.round || this.game.round.czar != this)
+		if (!this.game.round || this.game.round.czar !== this)
 			return Validator.fail("You are not the czar!");
 
 		return this.game.selectStack(stackId);
@@ -105,6 +105,6 @@ export class Player extends RoomBase {
 
 		this.hand = [];
 		this._isDisposed = true;
-		this.game.app.dispatcher.emit(A.playerDisposed(this.game.id, this.id));
+		this.game.app.dispatcher.emit(Actions.playerDisposed(this.game.id, this.id));
 	}
 }
