@@ -6,7 +6,7 @@ import {Observable, BehaviorSubject} from "rxjs";
 const defaultView = {
     id: 42,
     title: "Stefan's Game",
-    step: Actions.STEP_CHOOSE_WHITES,
+    step: Actions.STEP_SETUP,
     options: {
         scoreLimit: 5,
         sets: ["1ed"]
