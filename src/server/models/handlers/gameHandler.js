@@ -1,6 +1,6 @@
 import * as Actions from "../../actions";
 import {HandlerBase} from "../../lib/handlers";
-import {validateMessage} from "../../shared/validation/chat";
+import {validateMessage} from "../../shared/validation/chatValidator";
 
 export default class GameHandlers extends HandlerBase {
     constructor(client, game) {

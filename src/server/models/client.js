@@ -1,6 +1,6 @@
 import * as Actions from "../actions";
 import {Dispatcher} from "../shared/dispatcher";
-import {validateName} from "shared/validation/userValidator";
+import {validateName} from "../shared/validation/userValidator";
 import LobbyHandlers from "./handlers/lobbyHandler";
 import GameHandlers from "./handlers/gameHandler";
 
@@ -18,7 +18,7 @@ export class Client extends Dispatcher{
     constructor(socket, app){
         super();
         this.id = socket.id;
-        this.isLoggedIn = flase;
+        this.isLoggedIn = false;
         this.name = null;
         this.app = app;
 

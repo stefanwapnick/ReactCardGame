@@ -5,9 +5,10 @@ import {mapOp$} from "../../server/shared/observable";
 import {createView$} from "../lib/stores";
 
 const defaultView = {
-    messages:[],
+    messages: [],
     games: []
 };
+
 
 // const defaultView = {
 //     messages:[
