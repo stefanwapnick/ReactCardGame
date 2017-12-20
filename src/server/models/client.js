@@ -59,7 +59,7 @@ export class Client extends Dispatcher{
             this.handlers.dispose();
         }
 
-        this.handlers = handler;
+        this.handlers = handlers;
     }
 
     dispose(){
@@ -84,12 +84,12 @@ export class Client extends Dispatcher{
 
             [Actions.LOBBY_JOIN]: (action) => {
                 if (this.handlers instanceof LobbyHandlers) {
-                    this.succeed(action);
+                    this.success(action);
                     return;
                 }
 
                 this.setHandlers(new LobbyHandlers(this, lobby));
-                this.succeed(action);
+                this.success(action);
             },
 
             [Actions.GAME_CREATE]: (action) => {
@@ -102,8 +102,8 @@ export class Client extends Dispatcher{
                 try {
                     game = lobby.createGame(`${this.name}'s game`);
                     this.setHandlers(new GameHandlers(this, game));
-                    this.succeed(action);
-                    this.succeed(A.gameJoin(game.id));
+                    this.success(action);
+                    this.success(Actions.gameJoin(game.id));
                 } catch (e) {
                     if (game)
                         game.dispose();
@@ -115,7 +115,7 @@ export class Client extends Dispatcher{
 
             [Actions.GAME_JOIN]: (action) => {
                 if (this.handlers instanceof GameHandlers && this.handlers.game.id === action.gameId) {
-                    this.succeed(action);
+                    this.success(action);
                     return;
                 }
 
@@ -126,7 +126,7 @@ export class Client extends Dispatcher{
                 }
 
                 this.setHandlers(new GameHandlers(this, game));
-                this.succeed(action);
+                this.success(action);
             }
         })
     }

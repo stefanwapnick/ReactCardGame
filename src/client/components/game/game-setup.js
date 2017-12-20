@@ -1,3 +1,5 @@
+import "./game-setup.scss";
+
 import {ContainerBase} from "../../lib/component";
 import React from "react";
 import * as Actions from "../../actions";
@@ -8,7 +10,7 @@ export default class GameSetup extends ContainerBase {
     constructor(props){
         super(props);
 
-        this._setscoreLimit = (e) => {
+        this._setScoreLimit = (e) => {
             if(!this.state.opSetOptions.can){
                 return;
             }
@@ -39,7 +41,7 @@ export default class GameSetup extends ContainerBase {
                 e.preventDefault();
 
                 const {opStart, game: {id}} = this.state;
-                if(!opStart.can)
+                if (!opStart.can)
                     return;
 
                 this.request(Actions.gameStart(id));
@@ -78,14 +80,14 @@ export default class GameSetup extends ContainerBase {
                 <form className="body">
                     <div className="form-row">
                         <label>Score Limit:</label>
-                        <select value={options.scoreLimit} onChange={this._setscoreLimit} disabled={disabled}>
-                            {_.range(4,50).map(i =>
+                        <select value={options.scoreLimit} onChange={this._setScoreLimit} disabled={disabled}>
+                            {_.range(4, 50).map(i =>
                                 <option value={i} key={i}>{i}</option>)}
                         </select>
                     </div>
                     <div className="form-row">
                         <label>Sets:</label>
-                        <SetList sets={setList} toggleSet={this._toggleSet}/>
+                        <SetList sets={setList} toggleSet={this._toggleSet} />
                     </div>
                     <button className="m-button start-game good" onClick={this._startGame} disabled={disabled}>
                         Start Game

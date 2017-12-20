@@ -23,11 +23,11 @@ export function success(action){
 // Views
 // -----------------------------------------------
 export const MERGE_VIEW = "MERGE_VIEW";
-export const mergeView = (view, diff, id) => ({type: MERGE_VIEW, view, diff, id});
+export const mergeView = (view, diff, id = undefined) => ({type: MERGE_VIEW, view, diff, id});
 export const setView = (view, data, id = undefined) => mergeView(view, {$set: data}, id);
 
 export const VIEW_APP = "VIEW_APP";
-export const VIEW_LOBBY = "VIEW_APP";
+export const VIEW_LOBBY = "VIEW_LOBBY";
 export const VIEW_GAME = "VIEW_GAME";
 export const VIEW_PLAYER = "VIEW_PLAYER";
 
@@ -60,7 +60,7 @@ export const GAME_JOIN = "GAME_JOIN";
 export const gameJoin = (gameId) => ({type: GAME_JOIN, gameId});
 
 export const GAME_SET_OPTIONS = "GAME_SET_OPTIONS";
-export const gameSetOptions = (options) => ({type: GAME_SET_OPTIONS, options});
+export const gameSetOptions = (gameId, options) => ({type: GAME_SET_OPTIONS, gameId, options});
 
 export const GAME_START = "GAME_START";
 export const gameStart = (gameId) => ({type: GAME_START, gameId});
@@ -72,7 +72,7 @@ export const GAME_SELECT_STACK = "GAME_SELECT_STACK";
 export const gameSelectStack = (gameId, stackId) => ({type: GAME_SELECT_STACK, gameId, stackId});
 
 export const GAME_SEND_MESSAGE = "GAME_SEND_MESSAGE";
-export const gameSendMesssage = (gameId, message) => ({type: GAME_SEND_MESSAGE, gameId, message});
+export const gameSendMessage = (gameId, message) => ({type: GAME_SEND_MESSAGE, gameId, message});
 
 // -----------------------------------------------
 // Game Constants

@@ -36,7 +36,7 @@ export default class UserStore{
                 }
 
                 dispatcher.success(action);
-                socket.emit("actions", action);
+                socket.emit("action", action);
             }
         });
 

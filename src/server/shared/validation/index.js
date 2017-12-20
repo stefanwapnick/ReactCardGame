@@ -4,7 +4,7 @@ export class Validator {
         return this.errors.length > 0;
     }
 
-    get didSuceed(){
+    get didSucceed(){
         return this.errors.length === 0;
     }
 
@@ -22,6 +22,13 @@ export class Validator {
         }else{
             this.errors.push(errorObj);
         }
+    }
+
+    assert(condition, error) {
+        if (condition)
+            return;
+
+        this.push(error);
     }
 }
 

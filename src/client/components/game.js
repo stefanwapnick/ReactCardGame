@@ -11,7 +11,7 @@ export class GameContainer extends ContainerBase {
     constructor(props){
         super(props);
 
-        this._sendMessage = message => this.request(Actions.gameSendMesssage(this.state.game.id, message));
+        this._sendMessage = message => this.request(Actions.gameSendMessage(this.state.game.id, message));
     }
 
     componentWillMount(){

@@ -13,44 +13,43 @@ function getWhiteCardCount(text){
     return match.length;
 }
 
-export class CardDatabase{
-    get sets(){
+export class CardDatabase {
+    get sets() {
         return _.map(this._sets, set => ({id: set.id, name: set.name}));
     }
 
-    constructor(){
+    constructor() {
         this._sets = {};
     }
 
-    addSets(sets){
+    addSets(sets) {
         _.forOwn(sets, (set, setName) => this.addSet(setName, set));
     }
 
-    addSet(setName, set){
+    addSet(setName, set) {
         this._sets[setName] = {
             id: setName,
             name: set.name,
             blackCards: set.blackCards.map((card, index) => ({
-               id: `b-${setName}-${index}`,
-               text: card.replace(PLACEHOLDER_REGEX, "_____"),
-               set: setName,
-               whiteCardCount: getWhiteCardCount(card)
+                id: `b-${setName}-${index}`,
+                text: card.replace(PLACEHOLDER_REGEX, "______"),
+                set: setName,
+                whiteCardCount: getWhiteCardCount(card)
             })),
             whiteCards: set.whiteCards.map((card, index) => ({
-               id: `w-${setName}-${index}`,
-               text: card,
-               set: setName
+                id: `w-${setName}-${index}`,
+                text: card,
+                set: setName,
             }))
         };
     }
 
-    generateDecks(setId = null){
+    generateDecks(setIds = null) {
         const sets = setIds ? setIds.map(s => this._sets[s]) : _.values(this._sets);
-
-        if(!sets.length)
+        if (!sets.length)
             throw new Error("Cannot generate deck without any sets selected");
 
-        const whiteCards = _.flatMap(set, s => s.whiteCards);
+        const whiteCards = _.flatMap(sets, s => s.whiteCards);
         shuffle(whiteCards);
 
         const blackCards = _.flatMap(sets, s => s.blackCards);
@@ -58,7 +57,6 @@ export class CardDatabase{
 
         return new Deck(whiteCards, blackCards);
     }
-
 }
 
 
