@@ -8,7 +8,7 @@ export class Application extends RoomBase{
     get view(){
         return {
             sets: this.cards.sets
-        }
+        };
     }
 
     constructor(cards){

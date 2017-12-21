@@ -152,7 +152,7 @@ export class Game extends RoomBase {
 		delete this._nextCzarIndex;
 
 		this.round = new Round(this.deck.drawBlackCard(), czar, this.players);
-		this.step = A.STEP_CHOOSE_WHITES;
+		this.step = Actions.STEP_CHOOSE_WHITES;
 
 		for (let player of this.players)
 			player.onRoundStart();
@@ -161,27 +161,27 @@ export class Game extends RoomBase {
 	_postTick() {
 		if (!this.isDisposed && this.step !== Actions.STEP_WAIT && this.step !== Actions.STEP_SETUP) {
 			if (this.players.length < MINIMUM_PLAYERS)
-				this._transitionStep(Actions.WAIT_GAME_OVER, A.WAIT_REASON_TOO_FEW_PLAYERS);
+				this._transitionStep(Actions.WAIT_GAME_OVER, Actions.WAIT_REASON_TOO_FEW_PLAYERS);
 
 			else if (!this.players.includes(this.round.czar))
-				this._transitionStep(Actions.WAIT_ROUND_OVER, A.WAIT_REASON_CZAR_LEFT);
+				this._transitionStep(Actions.WAIT_ROUND_OVER, Actions.WAIT_REASON_CZAR_LEFT);
 
 			else if (_.keys(this.round.stacks).length === 0)
-				this._transitionStep(Actions.WAIT_ROUND_OVER, A.WAIT_REASON_TOO_FEW_PLAYERS);
+				this._transitionStep(Actions.WAIT_ROUND_OVER, Actions.WAIT_REASON_TOO_FEW_PLAYERS);
 
 			else if (this.step === Actions.STEP_CHOOSE_WHITES && this.round.areAllStacksFinished) {
 				this.round.revealStacks();
-				this.step = A.STEP_JUDGE_STACKS;
+				this.step = Actions.STEP_JUDGE_STACKS;
 			}
 
-			else if (this.step === ActionsSTEP_JUDGE_STACKS && this.round.winningStack) {
+			else if (this.step === Actions.STEP_JUDGE_STACKS && this.round.winningStack) {
 				this.round.winningStack.player.addPoints(1);
 
 				if (_.some(this.players, p => p.score >= this.options.scoreLimit)) {
-					this._transitionStep(Actions.WAIT_GAME_OVER, A.WAIT_REASON_GAME_FINISHED);
+					this._transitionStep(Actions.WAIT_GAME_OVER, Actions.WAIT_REASON_GAME_FINISHED);
 				} else {
 					this._nextCzarIndex = (this.players.indexOf(this.round.czar) + 1) % this.players.length;
-					this._transitionStep(Actions.WAIT_ROUND_OVER, A.WAIT_REASON_ROUND_FINISHED);
+					this._transitionStep(Actions.WAIT_ROUND_OVER, Actions.WAIT_REASON_ROUND_FINISHED);
 				}
 			}
 		}
@@ -193,7 +193,7 @@ export class Game extends RoomBase {
 
 	_transitionStep(type, reason) {
 		this._ensureActive();
-		this.step = A.STEP_WAIT;
+		this.step = Actions.STEP_WAIT;
 		this.timer = {timeout: 5000, type, reason};
 		setTimeout(() => {
 			if (this.isDisposed)

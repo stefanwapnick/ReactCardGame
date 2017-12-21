@@ -70,12 +70,15 @@ export class Player extends RoomBase {
 			return;
 
 		if (this.hand.length < count)
-			this.addCards(deck.drawWhiteCards(count - this.hand.length));
+			this.addCards(deck.drawWhiteCard(count - this.hand.length));
 	}
 
 	selectCard(cardId) {
 		if (!this.stack)
 			return Validator.fail("You are not in this round!");
+
+		console.log(this.hand);
+		console.log(cardId);
 
 		const cardIndex = _.findIndex(this.hand, {id: cardId});
 		if (cardIndex === -1)

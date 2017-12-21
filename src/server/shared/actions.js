@@ -66,7 +66,7 @@ export const GAME_START = "GAME_START";
 export const gameStart = (gameId) => ({type: GAME_START, gameId});
 
 export const GAME_SELECT_CARD = "GAME_SELECT_CARD";
-export const gameSelectCard = (gameId, stackId) => ({type: GAME_SELECT_CARD, gameId, stackId});
+export const gameSelectCard = (gameId, cardId) => ({type: GAME_SELECT_CARD, gameId, cardId});
 
 export const GAME_SELECT_STACK = "GAME_SELECT_STACK";
 export const gameSelectStack = (gameId, stackId) => ({type: GAME_SELECT_STACK, gameId, stackId});

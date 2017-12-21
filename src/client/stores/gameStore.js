@@ -68,7 +68,8 @@ export default class GameStore{
             [Actions.GAME_SET_OPTIONS]: passThroughAction,
             [Actions.GAME_START]: passThroughAction,
             [Actions.GAME_SELECT_CARD]: passThroughAction,
-            [Actions.GAME_SELECT_STACK]: passThroughAction
+            [Actions.GAME_SELECT_STACK]: passThroughAction,
+            [Actions.GAME_SEND_MESSAGE]: passThroughAction
         });
 
         this.opCreateGame$ = mapOp$(

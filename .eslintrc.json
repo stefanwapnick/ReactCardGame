@@ -12,7 +12,6 @@
   },
   "parser": "babel-eslint",
   "rules": {
-    "indent": ["error", 4],
     "semi": ["error", "always"],
     "no-console": "off",
     "no-unused-vars": "warn",

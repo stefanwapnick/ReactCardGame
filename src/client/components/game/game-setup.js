@@ -25,7 +25,7 @@ export default class GameSetup extends ContainerBase {
 
             const {opSetOptions, game: {options}} = this.state;
 
-            if(!opSetOptions.can)
+            if (!opSetOptions.can)
                 return;
 
             const newSets = set.isSelected
@@ -36,16 +36,16 @@ export default class GameSetup extends ContainerBase {
                 options,
                 sets: newSets
             }));
+        };
 
-            this._startGame = (e) => {
-                e.preventDefault();
+        this._startGame = (e) => {
+            e.preventDefault();
 
-                const {opStart, game: {id}} = this.state;
-                if (!opStart.can)
-                    return;
+            const {opStart, game: {id}} = this.state;
+            if (!opStart.can)
+                return;
 
-                this.request(Actions.gameStart(id));
-            };
+            this.request(Actions.gameStart(id));
         };
     }
 

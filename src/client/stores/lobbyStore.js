@@ -33,7 +33,7 @@ export default class LobbyStore{
         this.view$ = createView$(dispatcher, Actions.VIEW_LOBBY, defaultView);
 
         dispatcher.onRequest({
-            [Actions.LOBBY_JOIN]: action => socket.emit("actions", action),
+            [Actions.LOBBY_JOIN]: action => socket.emit("action", action),
             [Actions.LOBBY_SEND_MESSAGE]: action => {
                 const validator = new Validator();
                 if(!userStore.isLoggedIn){
